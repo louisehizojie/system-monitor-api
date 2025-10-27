@@ -1,0 +1,30 @@
+logging:
+  handlers:
+    - sink: "E:\\Logs\\DailyMonitorAPI\\HealthMonitorAPI.log"
+      level: "INFO"
+      format: "{time} {level} {message}"
+      rotation: "5 MB"
+      retention: "1 week"
+
+allow_origins:
+  - http://localhost:5173
+  - http://localhost:3000
+
+db_conn_info:
+  database: devdb
+  host: your.db.server
+  port: 1521
+  userid: db_user
+  password: some_encryted_password
+
+jwt_info:
+  secret_key: abda10fa6563364f5164ac44009fd794786993ca5f8197e2c8c747db4746f29f
+  algorithm: HS256
+  token_expiry: 30 #minutes
+
+server_info:
+  server_host: 0.0.0.0
+  server_port: 8000
+  workers: 4
+  ssl_keyfile: cert/private_key_sample.pem
+  ssl_certfile: cert/public_certificate_sample.pem

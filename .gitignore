@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Editor/IDE specific files
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# FastAPI/Uvicorn specific
+.uvicorn_pid
+*.log
+*.sqlite3
+*.db
+!db.sqlite3 # Example: if you want to track a specific database file
+
+# Environment variables
+.env
+.flaskenv
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Test artifacts
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Docker
+docker-compose.override.yml
+*.env.docker
