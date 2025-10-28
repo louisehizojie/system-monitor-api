@@ -1,6 +1,4 @@
 import config
-import conn_oracle
-from fastapi import Depends
 import oracledb
 import psutil
 
@@ -28,12 +26,12 @@ def get_service_status(service_name):
         logger.error(f"An error occurred when checking service ({service_name}): {e}")
         return 'error'
 
-def get_all_statuses():
+def get_all_statuses(db_conn: oracledb.Connection):
     return [
         get_da_internal_status(),
         get_crm_messenger_status(),
         get_crm_webapi_status(),
-        get_stuck_jobs_status(),
+        get_stuck_jobs_status(db_conn),
     ] + get_daily_checks_statuses()
 
 def get_status_info(id, display, type, status, details=None):
@@ -73,24 +71,24 @@ def get_da_internal_status():
         status)
     return status_info
 
-def get_stuck_jobs_status(db_conn: oracledb.Connection = Depends(conn_oracle.get_db_connection)):
+def get_stuck_jobs_status(db_conn: oracledb.Connection):
     # HERE: Make call to DB to check for potentially stuck job
     # Sample Call to Oracle DB
-    '''
+
+    items = []
     cursor = None
     try:
         cursor = db_conn.cursor()
-        cursor.execute("SELECT id, name FROM your_table")
+        cursor.execute("SELECT 1, 'test' FROM dual")
         rows = cursor.fetchall()
         items = [{"id": row[0], "name": row[1]} for row in rows]
-        return items
     finally:
         if cursor:
             cursor.close()
-    '''
+
 
     # For now, lets return some mock data so the project can run successfully out of the box.
-    status = 'warning'
+    status = 'warning' if len(items) > 0 else 'failed'
     details = '''Process DCMD Records: Processing since Wednesday October 22, 2025 1:08 pm on Fourth Server
 Attach latest Transcript: Processing since Wednesday October 22, 2025 3:14 pm on Second Server'
 Send Immediate Emails: Processing since Wednesday October 22, 2025 4:01 pm on Third Server'''

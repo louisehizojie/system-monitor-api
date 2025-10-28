@@ -12,15 +12,11 @@ allow_origins:
 
 db_conn_info:
   database: devdb
+  service_name: devdbSID
   host: your.db.server
   port: 1521
   userid: db_user
   password: some_encryted_password
-
-jwt_info:
-  secret_key: abda10fa6563364f5164ac44009fd794786993ca5f8197e2c8c747db4746f29f
-  algorithm: HS256
-  token_expiry: 30 #minutes
 
 server_info:
   server_host: 0.0.0.0
@@ -28,3 +24,16 @@ server_info:
   workers: 4
   ssl_keyfile: cert/private_key_sample.pem
   ssl_certfile: cert/public_certificate_sample.pem
+
+checks:
+  - id: 'Internal'
+    name: 'Internal Website'
+    type: 'Website'
+  - id: 'CRMMessenger'
+    name: 'CRM Messenger Windows Service'
+    type: 'Service'
+
+jwt_info:
+  secret_key: <your-256-bit-secret>
+  algorithm: HS256
+  token_expiry: 30 #minutes

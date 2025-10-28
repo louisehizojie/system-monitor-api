@@ -16,4 +16,6 @@ allow_origins = load_config_section("config.yaml", "allow_origins")
 
 db_conn_info = load_config_section("config.yaml", "db_conn_info")
 
+checks = load_config_section("config.yaml", "checks")
+
 jwt_info = load_config_section("config.yaml", "jwt_info")

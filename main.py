@@ -5,6 +5,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from auth_pyjwt import authenticate_user, create_access_token, get_current_user
+import oracledb
 import uvicorn
 
 logger = config.logger
@@ -43,17 +44,20 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     # Return the token in the standard OAuth2 format
     return {"access_token": access_token, "token_type": "bearer"}
 
-@app.get("/")
+@app.get("/api/monitoring")
 async def read_root():
-    return { "database": config.db_conn_info.database }
+    return { 
+        "database": config.db_conn_info["database"],
+        "checks": config.checks
+    }
 
-@app.get("/crmmessengerstatus")
+@app.get("/api/monitoring/crmmessengerstatus")
 async def check_crm_messenger():
     return {"status": f"{check_services.get_crm_messenger_status()}"}
 
-@app.get("/allstatuses")
-async def check_all_statuses(current_user: dict = Depends(get_current_user)):
-    return check_services.get_all_statuses()
+@app.get("/api/monitoring/refresh")
+async def check_all_statuses(current_user: dict = Depends(get_current_user), db_conn: oracledb.Connection = Depends(conn_oracle.get_db_connection)):
+    return check_services.get_all_statuses(db_conn)
 
 if __name__ == "__main__":
     logger.info("Service started successfully!")

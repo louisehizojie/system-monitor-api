@@ -62,6 +62,7 @@ All core settings for the application are managed in the **`config/config.yaml`*
 | `LOGGING` | `config.yaml` | Loguru configuration (level, file path, rotation). |
 | `JWT_INFO` | `config.yaml` | JWT Token configuration (secret, algorithm, expiry). |
 | `DB_CONN_INFO` | `config.yaml` | Connection details for the Oracle database. |
+| `ALLOW_ORIGINS` | `config.yaml` | Restricts API access to specific client. |
 
 **Always review and update the `config.yaml` with your own environment details before running.**
 
